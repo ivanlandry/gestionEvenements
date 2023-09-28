@@ -3,15 +3,32 @@ require_once "controllers/AuthController.php";
 require_once "controllers/DepartementController.php";
 require_once "controllers/EvenementController.php";
 AuthController::isLogin();
+$evenement = new EvenementController();
+$id_evenement = "";
+
+if (isset($_GET["id_evenement"])) {
+    $id_evenement = $_GET["id_evenement"];
+}
+$data = $evenement->getEvenement($id_evenement);
 
 $departs = new DepartementController();
 $dataDeparts = $departs->getDepartements();
 
-$nom = $description = $lieu = $departements = "";
+$nom = $description = $lieu = $departements = "";;
+
+if ($_SERVER['REQUEST_METHOD'] != "POST") {
+    $nom = $data["nom"];
+    $description = $data["description"];
+    $lieu = $data["lieu"];
+
+}
+
 $nomErreur = $descriptionErreur = $lieuErreur = $departementsErreur = "";
 $erreur = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    $id_evenement = $_POST["id_evenement"];
 
     if (empty($_POST["nom"])) {
         $nomErreur = "le nom ne peut etre vide";
@@ -52,10 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!$erreur) {
 
-        $evenement = new EvenementController();
-        $evenement->create($nom,$lieu,$description,$departements);
-
-    }else{
+        $evenement->update($nom, $lieu, $description, $departements, $id_evenement);
+    } else {
 
     }
 }
@@ -73,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
           integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <link rel="stylesheet" href="css/index.css">
-    <title>Ajouter-evenement</title>
+    <title>Modifier-evenement</title>
 
 </head>
 <body>
@@ -89,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($_SERVER['REQUEST_METHOD'] != "POST" || $erreur == true) {
         ?>
         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <input type="text" name="id_evenement" value="<?= $id_evenement ?>" hidden="hidden">
             <div class="mb-3">
                 <label for="nom" class="col-form-label">Nom de l'évenement</label>
                 <input type="text" value="<?= $nom ?>" class="form-control" id="nom" name="nom">
@@ -117,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </select>
                 <span class="text-danger"><?= $departementsErreur ?></span>
             </div>
-            <button class="btn  btn-primary" type="submit">Enregistrer</button>
+            <button class="btn  btn-primary" type="submit">Modifier</button>
         </form>
         <?php
     }
