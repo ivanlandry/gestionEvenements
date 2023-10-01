@@ -11,7 +11,7 @@ class DepartementModel extends Model
         return $req->fetchAll();
     }
 
-    public function selectByLibelle($libelle){
+    public function selectById($libelle){
         $req = $this->db->getPDo()->prepare("SELECT * FROM departements WHERE libelle=?");
         $req->execute(array($libelle));
 

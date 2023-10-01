@@ -7,8 +7,8 @@ AuthController::isLogin();
 $departs = new DepartementController();
 $dataDeparts = $departs->getDepartements();
 
-$nom = $description = $lieu = $departements = "";
-$nomErreur = $descriptionErreur = $lieuErreur = $departementsErreur = "";
+$nom = $description = $lieu = $departements = $date="";
+$nomErreur = $descriptionErreur = $lieuErreur = $departementsErreur =$dateErreur= "";
 $erreur = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -46,14 +46,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $erreur = false;
     }
 
-    if (strlen($nomErreur) != 0 || strlen($descriptionErreur) != 0 || strlen($lieuErreur) != 0 || strlen($departementsErreur)) {
+    if (empty($_POST["date"])) {
+        $dateErreur = "la date ne peut etre vide";
+        $erreur = true;
+
+    } else {
+        $date = $_POST["date"];
+        $erreur = false;
+    }
+
+    if (strlen($nomErreur) != 0 || strlen($descriptionErreur) != 0 || strlen($lieuErreur) != 0 || strlen($departementsErreur) || strlen($dateErreur)) {
         $erreur = true;
     }
 
     if (!$erreur) {
 
         $evenement = new EvenementController();
-        $evenement->create($nom,$lieu,$description,$departements);
+        $evenement->create($nom,$lieu,$description,$departements,$date);
 
     }else{
 
@@ -103,6 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <label for="email" class="col-form-label">Description</label>
                 <textarea class="form-control" name="description" id="description"><?= $description ?></textarea>
                 <span class="text-danger"><?= $descriptionErreur ?></span>
+            </div>
+            <div class="mb-3">
+                <label for="date0" class="col-form-label">Date</label>
+                <input class="form-control" name="date" id="date" type="datetime-local"/>
+                <span class="text-danger"><?= $dateErreur ?></span>
             </div>
             <div class="mb-3">
                 <label for="departements" class="col-form-label">Departements</label>

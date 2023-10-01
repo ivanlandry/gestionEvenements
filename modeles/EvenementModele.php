@@ -4,10 +4,10 @@ require_once("Model.php");
 
 class EvenementModele extends Model
 {
-    public function create($nom, $lieu, $description, $departements)
+    public function create($nom, $lieu, $description, $departements,$date)
     {
-        $req = $this->db->getPDo()->prepare("INSERT INTO evenements(nom,description,lieu) VALUES (?,?,?)");
-        $req->execute([$nom, $description, $lieu]);
+        $req = $this->db->getPDo()->prepare("INSERT INTO evenements(nom,description,lieu,date) VALUES (?,?,?,?)");
+        $req->execute([$nom, $description, $lieu,$date]);
 
         $lastId = $this->db->getPDo()->lastInsertId();
 
@@ -17,15 +17,17 @@ class EvenementModele extends Model
         }
     }
 
-    public function update($nom, $lieu, $description, $departements, $id)
+    public function update($nom, $lieu, $description, $departements, $date,$id)
     {
-        $req = $this->db->getPDo()->prepare("UPDATE  evenements SET nom=?,description=?,lieu=? WHERE id=?");
-        $req->execute([$nom, $description, $lieu, $id]);
-        $dprt = new DepartementModel();
+        $req = $this->db->getPDo()->prepare("UPDATE  evenements SET nom=?,description=?,lieu=?,date=? WHERE id=?");
+        $req->execute([$nom, $description, $lieu, $date,$id]);
+
+        $req= $this->db->getPDo()->prepare("DELETE FROM evenements_departements WHERE id_evenement=?");
+        $req->execute(array($id));
+
         foreach ($departements as $departement) {
-            $data = $dprt->selectByLibelle($departement);
-            $req = $this->db->getPDo()->prepare("UPDATE evenements_departements SET id_departement=? WHERE id_evenement=?");
-            $req->execute(array($data["id"], $id));
+            $req = $this->db->getPDo()->prepare("INSERT INTO evenements_departements(id_departement,id_evenement) VALUES (?,?)");
+            $req->execute(array($departement, $id));
         }
     }
     public function selectAll()

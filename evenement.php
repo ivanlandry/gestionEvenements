@@ -75,8 +75,6 @@ $evenements = $evenementController->getEvenements();
             <th scope="col">Date de créeation</th>
             <th scope="col">Departements</th>
             <th scope="col">Lieu</th>
-            <th scope="col">Nombre de votes des employes</th>
-            <th scope="col">Nombre de votes des etudiants</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -101,8 +99,7 @@ $evenements = $evenementController->getEvenements();
                     </ul>
                 </td>
                 <td><?= $evenement["lieu"] ?></td>
-                <td><?= $evenement["nb_vote_employe"] ?></td>
-                <td><?= $evenement["nb_vote_etudiant"] ?></td>
+
                 <td>
                     <a class="bi bi-pencil-fill px-1 text-primary" href="modifier_evenement.php?id_evenement=<?= $evenement['id'] ?>"></a>
                     <a class="bi bi-trash-fill px-1 text-danger"
