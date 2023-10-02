@@ -101,7 +101,10 @@ $evenements = $evenementController->getEvenements();
                 <td><?= $evenement["lieu"] ?></td>
 
                 <td>
-                    <a class="bi bi-pencil-fill px-1 text-primary" href="modifier_evenement.php?id_evenement=<?= $evenement['id'] ?>"></a>
+                    <a class="bi bi-eye px-1 text-primary"
+                       href="show_evenement.php?id_evenement=<?= $evenement['id'] ?>"></a>
+                    <a class="bi bi-pencil-fill px-1 text-secondary"
+                       href="modifier_evenement.php?id_evenement=<?= $evenement['id'] ?>"></a>
                     <a class="bi bi-trash-fill px-1 text-danger"
                        href="supprimer_evenement.php?id_evenement=<?= $evenement['id'] ?>"></a>
                 </td>
