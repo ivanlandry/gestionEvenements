@@ -99,8 +99,8 @@ $evenement = $evenementController->getEvenement($_GET['id_evenement']);
             <td>Employés</td>
         </tr>
         <tr>
-            <td><?= $evenement["nb_vote_faible_et"]+$evenement["nb_vote_moyen_et"]+$evenement["nb_vote_fort_et"] ?></td>
-            <td><?= $evenement["nb_vote_faible_em"]+$evenement["nb_vote_moyen_em"]+$evenement["nb_vote_fort_em"] ?></td>
+            <td><?= $evenement["nb_vote_faible_et"] + $evenement["nb_vote_moyen_et"] + $evenement["nb_vote_fort_et"] ?></td>
+            <td><?= $evenement["nb_vote_faible_em"] + $evenement["nb_vote_moyen_em"] + $evenement["nb_vote_fort_em"] ?></td>
         </tr>
         </tbody>
     </table>
