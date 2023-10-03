@@ -28,7 +28,6 @@ if ($retour != null) {
             <div class="col-md-6 offset-md-4 mt-5">
                 <h3>Evenement du jour</h3>
                 <h1><?= $retour["nom"] ?></h1>
-
                 <form action="" class="mt-5">
                     <label for="">Type de voteurs</label>
                     <select class="form-control" id="select_value">
@@ -36,6 +35,7 @@ if ($retour != null) {
                         <option value="2">Employes</option>
                     </select>
                     <input class="btn btn-primary mt-2 w-100" type="submit" value="Valider">
+
                 </form>
             </div>
         </div>
@@ -74,12 +74,25 @@ if ($retour != null) {
             group_emojis.show();
         });
 
+
         $("#group_emojis button").click(function () {
+
+            $(this).animate({
+                height: '+=50px',
+                width: '+=50px',
+            }, 'slow');
+
+            $(this).animate({
+                height: '-=50px',
+                width: '-=50px',
+            }, 'slow');
+
             vote = $(this).attr('id');
             console.log(vote);
             $.ajax({
                 type: 'POST',
-                data: {'vote': vote,
+                data: {
+                    'vote': vote,
                     'value_selected': value_selected,
                     'id_evenement': $('#id_evenement').val()
                 },

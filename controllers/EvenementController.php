@@ -3,6 +3,9 @@ require_once(realpath(dirname(__FILE__) . "/../modeles/EvenementModele.php"));
 require_once(realpath(dirname(__FILE__) . "/../modeles/DepartementModel.php"));
 require_once(realpath(dirname(__FILE__) . "/../Util.php"));
 
+date_default_timezone_set('America/Montreal');
+
+
 class EvenementController
 {
     private $evenementModel;
@@ -63,8 +66,8 @@ class EvenementController
 
     public function index()
     {
-        $dateActuel = new DateTime();
-        $dateActuel = $dateActuel->format('Y-m-d');
+
+        $dateActuel = date('Y-m-d');
         $evenements = $this->getEvenements();
 
         $evenementDuJour = "";
@@ -80,6 +83,7 @@ class EvenementController
                 break;
             }
         }
+
         if ($statut == true) {
             return $evenementDuJour;
         } else {
